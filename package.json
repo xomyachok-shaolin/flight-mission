@@ -1,19 +1,39 @@
 {
   "name": "flight-mission",
   "version": "0.1.0",
+  "main": "main.js",
   "private": true,
   "dependencies": {
+    "@ant-design/pro-layout": "^7.22.3",
+    "@antv/l7": "^2.22.5",
+    "@antv/l7-maps": "^2.22.5",
+    "@deck.gl/extensions": "^9.1.8",
+    "@deck.gl/layers": "^9.1.8",
+    "@deck.gl/mapbox": "^9.1.8",
+    "@geoman-io/maplibre-geoman-free": "^0.3.0",
+    "@hyvilo/maplibre-gl-draw": "^1.0.0",
+    "@mapbox/mapbox-gl-draw": "^1.5.0",
+    "@maplibre/maplibre-gl-geocoder": "^1.8.0",
+    "@maptiler/weather": "^3.0.1",
+    "@sakitam-gis/maplibre-wind": "^2.0.3",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^13.5.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "@turf/turf": "^7.2.0",
+    "antd": "^5.24.5",
+    "axios": "^1.7.9",
+    "deck.gl": "^9.1.8",
+    "maplibre-gl": "^5.3.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
+    "weatherlayers-gl": "^2025.1.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
+    "electron": "electron .",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -35,5 +55,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "electron": "^34.2.0"
   }
 }

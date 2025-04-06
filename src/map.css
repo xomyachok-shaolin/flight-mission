@@ -1,0 +1,44 @@
+/* Исходное состояние: белый фон, чёрная иконка */
+.custom-wind-btn {
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    /* По желанию: принудительно убираем outline при фокусе */
+    outline: none;
+  }
+  
+  /* Если SVG внутри имеет fill="#000", иконка всегда чёрная, 
+     но на всякий случай можно ещё усилить: */
+  .custom-wind-btn svg path {
+    fill: #000 !important;
+  }
+  
+  /* При наведении фон слегка затемняется */
+  .custom-wind-btn:hover svg rect {
+    fill: #0000000d !important; /* или #f0f0f0, #ddd и т.д. */
+  }
+  
+  /* Если хотите ещё на :focus/:active слегка затемнять */
+  /* .custom-wind-btn:focus,
+  .custom-wind-btn:active {
+    background-color: #e0e0e0 !important;  
+    outline: none !important;
+  } 
+  */
+  
+  /* Когда кнопка «активна» (класс .active), фон голубой
+  .custom-wind-btn.active {
+    background-color: #3aa0ff !important;
+  } */
+  
+  /* Иконка при этом остаётся чёрной */
+  .custom-wind-btn.active svg path {
+    fill: #33b5e5 !important;
+  }
+  
+  
+
+  #deckgl-overlay {
+    z-index: -1;
+    /* opacity: 50%; */
+  }
