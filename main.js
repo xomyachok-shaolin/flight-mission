@@ -1,31 +1,33 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-
+const isDev = !app.isPackaged;
 function createWindow() {
-  // Создание окна браузера
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+  const mainWindow = new BrowserWindow({
+    width: 1200, height: 800,
     webPreferences: {
-      nodeIntegration: true,  // Разрешаем использование Node.js в рендерере
-      contextIsolation: false, // Для совместимости с React-приложением
-    },
-  });
-
-  // Загрузка вашего React-приложения, которое запущено на localhost
-  win.loadURL('http://localhost:3000');  // Убедитесь, что ваш React сервер работает
-}
-
-app.whenReady().then(() => {
-  createWindow();
-
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
+      preload: path.join(__dirname, './src/preload/preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false
     }
   });
-});
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
+  if (isDev) {
+    mainWindow.loadURL(process.env.ELECTRON_RENDERER_URL || 'http://localhost:3000');
+    mainWindow.webContents.openDevTools();
+  } else {
+    mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'));
+  }
+  // Открывать внешние ссылки в браузере
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    require('electron').shell.openExternal(url);
+    return { action: 'deny' };
+  });
+}
+app.whenReady().then(createWindow);
+app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
+app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
+// Пример IPC handler
+ipcMain.handle('getVersion', () => app.getVersion());
+ipcMain.on('doSomething', (event, data) => {
+  console.log('Received:', data);
+  event.reply('didSomething', 'OK');
 });

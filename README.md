@@ -1,70 +1,150 @@
-# Getting Started with Create React App
+# Полётное задание
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Проект для планирования маршрутов с учётом запретных зон и рельефа местности**
 
-## Available Scripts
+## Описание
 
-In the project directory, you can run:
+Веб-приложение на основе Next.js и React позволяет строить оптимальный маршрут между двумя точками с учётом:
 
-### `npm start`
+* **No-fly зоны**: пользователь может рисовать полигоны на карте, задавая зоны, которые нужно обходить.
+* **Рельеф**: расчет маршрута учитывает изменение высоты местности по данным DEM-тайлов от MapTiler.
+* **Ширина коридора**: отображение буфера вокруг маршрута для оценки безопасной зоны пролёта.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Интерфейс использует MapLibre GL для визуализации спутниковых тайлов, Geoman для рисования на карте и Ant Design для UI.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Основные возможности
 
-### `npm test`
+* Выбор начала и конца маршрута с помощью крестовины или ручного ввода координат.
+* Задание и редактирование no-fly зон (полигоны).
+* Расчёт оптимального маршрута с обходом запретных зон и учётом подъёмов/спусков.
+* Визуализация маршрута и коридора безопасного пролёта.
+* Редактирование маршрута с помощью Geoman после построения.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Технологический стек
 
-### `npm run build`
+* **React** / **Next.js** (SSR + маршрутизация)
+* **MapLibre GL** — картографическая библиотека
+* **@geoman-io/maplibre-geoman-free** — инструменты рисования на карте
+* **Ant Design** — компоненты интерфейса
+* **Turf.js** — геопространственные операции (буфер, длина, пересечения и т. д.)
+* **Node.js** (API-роуты)
+* **Canvas**, **node-fetch**, **turf** и **Heap** — для серверной части расчёта маршрута
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Начало работы
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Предварительные требования
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* Node.js `>=14.x`
+* `yarn` или `npm`
+* API-ключ [MapTiler](https://www.maptiler.com)
 
-### `npm run eject`
+### Установка
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Клонируйте репозиторий:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   ```bash
+   git clone <url-репозитория>
+   cd flight-mission
+   ```
+2. Установите зависимости:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   ```bash
+   yarn install
+   # или
+   npm install
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Переменные окружения
 
-## Learn More
+Создайте файл `.env.local` в корне проекта и добавьте:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```env
+MAPTILER_KEY=<ваш_ключ_MapTiler>
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+(используется для загрузки спутниковых и DEM-тайлов)
 
-### Code Splitting
+### Запуск локально
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+# Для разработки
+yarn dev
+# или
+npm run dev
+# Перейти по адресу http://localhost:3000
+```
 
-### Analyzing the Bundle Size
+Для продакшена:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+yarn build
+yarn start
+```
 
-### Making a Progressive Web App
+## Структура проекта
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```
+├── components/
+│   └── MapComponent.jsx   # Основной компонент карты и UI панели
+├── pages/
+│   ├── api/route.js       # API-роут для расчёта маршрута
+│   ├── _app.jsx           # Настройка Ant Design и ProLayout
+│   └── index.jsx          # Главная страница с проксированным MapComponent
+├── utils/
+│   ├── routeUtils.js      # Логика построения маршрута (DEM, граф, Dijkstra)
+│   └── terrain.js         # Вспомогательные функции для выборки высоты
+├── public/
+│   └── logo.png           # Логотип приложения
+├── styles/
+│   └── globals.css        # Глобальные стили
+├── .env.local             # Переменные окружения (не в репозитории)
+└── README.md              # Текущий файл
+```
 
-### Advanced Configuration
+## API
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### `POST /api/route`
 
-### Deployment
+Запрашивает оптимальный маршрут.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+**Тело запроса (JSON):**
 
-### `npm run build` fails to minify
+| Поле            | Тип                      | Описание                                 |
+| --------------- | ------------------------ | ---------------------------------------- |
+| `start`         | `[number, number]`       | Координаты \[долгота, широта] начала     |
+| `end`           | `[number, number]`       | Координаты \[долгота, широта] конца      |
+| `noFlyZones`    | `Array<GeoJSON.Polygon>` | Массив полигона запрещённых зон          |
+| `corridorWidth` | `number`                 | Ширина буфера вокруг маршрута (в метрах) |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Ответ (200 OK):**
+
+```json
+{
+  "route": GeoJSON.LineString,
+  "corridor": GeoJSON.Polygon
+}
+```
+
+## Развертывание
+
+1. Настроить переменные окружения на сервере (`MAPTILER_KEY`).
+2. Собрать и запустить приложение:
+
+   ```bash
+   yarn install
+   yarn build
+   yarn start
+   ```
+3. Настроить обратный прокси (например, Nginx) на порт `3000`.
+
+## Контрибьюция
+
+1. Форкните репозиторий.
+2. Создайте фичевую ветку (`git checkout -b feature/your-feature`).
+3. Сделайте коммит (`git commit -m 'Добавил новую фичу'`).
+4. Запушьте ветку (`git push origin feature/your-feature`).
+5. Откройте Pull Request.
+
+## Лицензия
+
+MIT © 2025

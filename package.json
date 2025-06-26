@@ -1,7 +1,6 @@
 {
   "name": "flight-mission",
   "version": "0.1.0",
-  "main": "main.js",
   "private": true,
   "dependencies": {
     "@ant-design/pro-layout": "^7.22.3",
@@ -23,20 +22,37 @@
     "@turf/turf": "^7.2.0",
     "antd": "^5.24.5",
     "axios": "^1.7.9",
+    "canvas": "^3.1.1",
     "deck.gl": "^9.1.8",
+    "heap": "^0.2.7",
+    "lru-cache": "^11.1.0",
     "maplibre-gl": "^5.3.0",
+    "next": "^15.3.4",
+    "node-fetch": "^3.3.2",
+    "p-limit": "^6.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-scripts": "5.0.1",
     "weatherlayers-gl": "^2025.1.0",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "concurrently": "^9.2.0",
+    "cross-env": "^7.0.3",
+    "electron": "^34.2.0",
+    "electron-builder": "^23.6.0"
+  },
+  "main": "main.js",
   "scripts": {
-    "start": "react-scripts start",
-    "electron": "electron .",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev:next": "next dev",
+    "dev:electron": "cross-env NEXT_PUBLIC_PLATFORM=desktop ELECTRON_RENDERER_URL=http://localhost:3000 electron .",
+    "dev": "concurrently \"pnpm run dev:next\" \"pnpm run dev:electron\"",
+    "build:renderer": "next build && next export -o out/renderer",
+    "build:electron": "babel electron/ -d out",
+    "build": "pnpm run build:renderer && pnpm run build:electron",
+    "dist": "pnpm run build && electron-builder",
+    "dist:win": "pnpm run build && electron-builder --win",
+    "dist:mac": "pnpm run build && electron-builder --mac",
+    "dist:linux": "pnpm run build && electron-builder --linux"
   },
   "eslintConfig": {
     "extends": [
@@ -56,7 +72,22 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "electron": "^34.2.0"
+  "build": {
+    "appId": "com.yourcompany.flightmission",
+    "productName": "FlightMission",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "build/**/*",
+      "main.js",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    }
   }
 }

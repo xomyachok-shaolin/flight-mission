@@ -1,0 +1,22 @@
+appId: com.mycompany.flightmission
+productName: FlightMission
+directories:
+  buildResources: build
+files:
+  - out/**
+  - "!**/node_modules/*/{test,__tests__,*.md}"
+  - "!**/pages/**"
+  - "!**/electron-builder.yml"
+  - "!**/*.map"
+  - "!**/.env*"
+asar: true
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+mac:
+  target: dmg
+  category: public.app-category.utilities
+linux:
+  target: AppImage
+  category: Utility
