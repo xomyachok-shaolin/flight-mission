@@ -335,10 +335,23 @@ const stopGeomanEdit = () => {
       if (panelRef.current?.contains(e.target)) return;
       if (routeBtnRef.current?.contains(e.target)) return;
       setIsPanelOpen(false);
+      setPanelStep(null); 
+      setTempStart(null); 
+      setTempEnd(null);              
     };
     document.addEventListener("click", handler);
     return () => document.removeEventListener("click", handler);
   }, [isPanelOpen]);
+
+  useEffect(() => {
+    if (!isPanelOpen) {
+      tempEndMark.current?.remove();
+      tempEndMark.current = null;
+    }
+  }, [isPanelOpen]);
+    
+
+
 
    function clearGeoman() {
     const gm = geomanRef.current;
@@ -376,14 +389,28 @@ const stopGeomanEdit = () => {
   // обработка правки из Geoman
   useEffect(() => {
     const map = mapRef.current;
+    if (!map) return;
     const onEditEnd = (evt) => {
       if (evt.feature?.id !== routeGmIdRef.current) return;
-      const updated = evt.feature.getGeoJson();            // <— use getGeoJson()
+      const updated = evt.feature.getGeoJson();         
+      
+      const coords = updated.geometry.coordinates;
+      const start = coords[0];
+      const end = coords[coords.length - 1];
+      
+      // 3) перемещаем маркеры «старт» и «финиш»
+      if (startMark.current) startMark.current.setLngLat(start);
+      if (endMark.current)   endMark.current.setLngLat(end);
+
       setRouteFeature(updated);
       setCorridorFeature(turf.buffer(updated, corridorWidth, { units: 'meters' }));
     };
     map.on('gm:editend', onEditEnd);
-    return () => { map.off('gm:editend', onEditEnd); };
+    map.on('gm:update',  onEditEnd);
+    return () => {
+      map.off('gm:editend', onEditEnd);
+      map.off('gm:update',  onEditEnd);
+    };
   }, [corridorWidth]);
 
   // пересчёт коридора при изменении ширины
@@ -455,6 +482,17 @@ const stopGeomanEdit = () => {
       setRouteFeature(route);
       setCorridorFeature(corridor);
       setFrozenEnd(tempEnd);
+
+      try {
+              const [minX, minY, maxX, maxY] = turf.bbox(corridor);
+              mapRef.current?.fitBounds(
+                [
+                  [minX, minY],
+                  [maxX, maxY],
+                ],
+                { padding: 40 }
+              );
+            } catch {}
     } catch (err) {
       console.error(err);
       alert("Сетевая ошибка");
