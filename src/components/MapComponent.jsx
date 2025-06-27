@@ -177,6 +177,7 @@ const stopGeomanEdit = () => {
 
   // ─── INIT MAP & GEOMAN ───────────────────────────────────────────────────────
   useEffect(() => {
+    const key = process.env.NEXT_PUBLIC_MAPTILER_KEY;
     const map = new maplibregl.Map({
       container: mapContainer.current,
       style: {
@@ -186,7 +187,7 @@ const stopGeomanEdit = () => {
           satellite: {
             type: "raster",
             tiles: [
-              "https://api.maptiler.com/tiles/satellite-v2/{z}/{x}/{y}.jpg?key=UuT3bgRT2n76FjxDNq6B",
+              `https://api.maptiler.com/tiles/satellite-v2/{z}/{x}/{y}.jpg?key=${key}`,
             ],
             tileSize: 512,
           },
@@ -243,9 +244,10 @@ const stopGeomanEdit = () => {
       map.addLayer({ id: "nf-outline", type: "line", source: "no-fly", paint: { "line-color": "#f00", "line-width": 2 } });
 
       // terrain
+      const key = process.env.NEXT_PUBLIC_MAPTILER_KEY;
       map.addSource("dem", {
         type: "raster-dem",
-        tiles: ["https://api.maptiler.com/tiles/terrain-rgb-v2/{z}/{x}/{y}.webp?key=UuT3bgRT2n76FjxDNq6B"],
+        tiles: [`https://api.maptiler.com/tiles/terrain-rgb-v2/{z}/{x}/{y}.webp?key=${key}`],
         tileSize: 512,
         maxzoom: 12,
       });

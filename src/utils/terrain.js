@@ -10,7 +10,7 @@ const CACHE = new LRUCache({ max: 500, ttl: 1000*60*60 });
 const queue = new PQueue({ concurrency: 10 });
 
 async function fetchTileData(z, x, y) {
-  const apiKey = process.env.MAPTILER_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_MAPTILER_KEY;
   if (!apiKey) throw new Error('MAPTILER_KEY не задан');
 
   const url = TILE_URL

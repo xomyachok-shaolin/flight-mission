@@ -59,7 +59,7 @@
 Создайте файл `.env.local` в корне проекта и добавьте:
 
 ```env
-MAPTILER_KEY=<ваш_ключ_MapTiler>
+NEXT_PUBLIC_MAPTILER_KEY=<ваш_ключ_MapTiler>
 ```
 
 (используется для загрузки спутниковых и DEM-тайлов)
