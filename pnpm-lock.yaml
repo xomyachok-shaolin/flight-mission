@@ -89,12 +89,18 @@ importers:
       p-limit:
         specifier: ^6.2.0
         version: 6.2.0
+      p-queue:
+        specifier: ^8.1.0
+        version: 8.1.0
       react:
         specifier: ^18.3.1
         version: 18.3.1
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
+      sharp:
+        specifier: ^0.34.2
+        version: 0.34.2
       weatherlayers-gl:
         specifier: ^2025.1.0
         version: 2025.6.1(@deck.gl/core@9.1.12)(@deck.gl/extensions@9.1.12(@deck.gl/core@9.1.12)(@luma.gl/core@9.1.9)(@luma.gl/engine@9.1.9(@luma.gl/core@9.1.9)(@luma.gl/shadertools@9.1.9(@luma.gl/core@9.1.9))))(@deck.gl/layers@9.1.12(@deck.gl/core@9.1.12)(@loaders.gl/core@4.3.4)(@luma.gl/core@9.1.9)(@luma.gl/engine@9.1.9(@luma.gl/core@9.1.9)(@luma.gl/shadertools@9.1.9(@luma.gl/core@9.1.9))))(@luma.gl/core@9.1.9)(@luma.gl/engine@9.1.9(@luma.gl/core@9.1.9)(@luma.gl/shadertools@9.1.9(@luma.gl/core@9.1.9)))(geotiff@2.1.3)
@@ -3029,6 +3035,14 @@ packages:
   p-limit@6.2.0:
     resolution: {integrity: sha512-kuUqqHNUqoIWp/c467RI4X6mmyuojY5jGutNU0wVTmEOOfcuwLqyMVoAi9MKi2Ak+5i9+nhmrK4ufZE8069kHA==}
     engines: {node: '>=18'}
+
+  p-queue@8.1.0:
+    resolution: {integrity: sha512-mxLDbbGIBEXTJL0zEx8JIylaj3xQ7Z/7eEVjcF9fJX4DBiH9oqe+oahYnlKKxm0Ci9TlWTyhSHgygxMxjIB2jw==}
+    engines: {node: '>=18'}
+
+  p-timeout@6.1.4:
+    resolution: {integrity: sha512-MyIV3ZA/PmyBN/ud8vV9XzwTrNtR4jFrObymZYnZqMmW0zA8Z17vnT0rBgFE/TlohB+YCHqXMgZzb3Csp49vqg==}
+    engines: {node: '>=14.16'}
 
   pako@1.0.11:
     resolution: {integrity: sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==}
@@ -7128,7 +7142,6 @@ snapshots:
     dependencies:
       color-name: 1.1.4
       simple-swizzle: 0.2.2
-    optional: true
 
   color-string@2.0.1:
     dependencies:
@@ -7138,7 +7151,6 @@ snapshots:
     dependencies:
       color-convert: 2.0.1
       color-string: 1.9.1
-    optional: true
 
   color@5.0.0:
     dependencies:
@@ -7995,8 +8007,7 @@ snapshots:
       call-bound: 1.0.3
       get-intrinsic: 1.2.7
 
-  is-arrayish@0.3.2:
-    optional: true
+  is-arrayish@0.3.2: {}
 
   is-async-function@2.1.1:
     dependencies:
@@ -8516,6 +8527,13 @@ snapshots:
   p-limit@6.2.0:
     dependencies:
       yocto-queue: 1.2.1
+
+  p-queue@8.1.0:
+    dependencies:
+      eventemitter3: 5.0.1
+      p-timeout: 6.1.4
+
+  p-timeout@6.1.4: {}
 
   pako@1.0.11: {}
 
@@ -9206,7 +9224,6 @@ snapshots:
       '@img/sharp-win32-arm64': 0.34.2
       '@img/sharp-win32-ia32': 0.34.2
       '@img/sharp-win32-x64': 0.34.2
-    optional: true
 
   shebang-command@2.0.0:
     dependencies:
@@ -9255,7 +9272,6 @@ snapshots:
   simple-swizzle@0.2.2:
     dependencies:
       is-arrayish: 0.3.2
-    optional: true
 
   simple-update-notifier@1.1.0:
     dependencies:
