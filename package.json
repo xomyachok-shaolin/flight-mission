@@ -9,7 +9,7 @@
     "@deck.gl/extensions": "^9.1.8",
     "@deck.gl/layers": "^9.1.8",
     "@deck.gl/mapbox": "^9.1.8",
-    "@geoman-io/maplibre-geoman-free": "^0.3.0",
+    "@geoman-io/maplibre-geoman-free": "^0.4.8",
     "@hyvilo/maplibre-gl-draw": "^1.0.0",
     "@mapbox/mapbox-gl-draw": "^1.5.0",
     "@maplibre/maplibre-gl-geocoder": "^1.8.0",
@@ -38,6 +38,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "jest": "^29.0.0",
     "concurrently": "^9.2.0",
     "cross-env": "^7.0.3",
     "electron": "^34.2.0",
@@ -54,7 +55,8 @@
     "dist": "pnpm run build && electron-builder",
     "dist:win": "pnpm run build && electron-builder --win",
     "dist:mac": "pnpm run build && electron-builder --mac",
-    "dist:linux": "pnpm run build && electron-builder --linux"
+    "dist:linux": "pnpm run build && electron-builder --linux",
+    "test": "jest"
   },
   "eslintConfig": {
     "extends": [
