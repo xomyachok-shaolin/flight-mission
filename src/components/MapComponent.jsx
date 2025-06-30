@@ -21,6 +21,7 @@ import {
   DirectionFormat,
 } from "weatherlayers-gl";
 import { Client as WeatherClient } from "weatherlayers-gl/client";
+import { useRoute } from "../context/RouteContext";
 
 const INITIAL_DATETIME_ISO = new Date().toISOString();
 const WEATHER_LAYERS_TOKEN = "3a6kPAwznqa8AQDWhBBd";
@@ -253,6 +254,7 @@ class WeatherWindControl {
 
 // ====================== MapComponent ======================
 export default function MapComponent() {
+  const { setRouteGeoJson } = useRoute();
   const mapRef = useRef(null);
   const mapContainer = useRef(null);
 
@@ -853,6 +855,7 @@ export default function MapComponent() {
       if (endMark.current) endMark.current.setLngLat(end);
 
       setRouteFeature(updated);
+      setRouteGeoJson(updated);
       setCorridorFeature(
         turf.buffer(updated, corridorWidth, { units: "meters" })
       );
@@ -946,6 +949,7 @@ export default function MapComponent() {
 
       setRouteFeature(route);
       setCorridorFeature(corridor);
+      setRouteGeoJson(route);
       setFrozenEnd(tempEnd);
 
       try {
